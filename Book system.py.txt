@@ -1,0 +1,134 @@
+class Flight:
+    def __init__ (self):
+        self.passengers=[]
+        self.tickets=[]
+        self.id=1101
+        self.ticket_count=50
+    def start(self):
+        while (True):
+            print("\n******** FLIGHT RESERVATION SYSTEM ********")
+            print("1. passenger")
+            print("2. cashier")
+            print("3. Exit")
+            choice = input("Enter your choice -> ")
+            if choice == "1":
+                self.passenger_menu()
+            elif choice =="2":
+                self.cashier_menu()
+            elif choice == "3":
+                break
+            else:
+                print(" invalid choice! ")
+                
+                
+    def passenger_menu(self):
+        while(True):
+            print("\n*******passenger menu*******")
+            print("1. sign up")
+            print("2. sign in")
+            print("3. back")
+            choice = input("Enter your choice -> ")
+            if choice == "1":
+                name = input("Enter your name: ")
+                password = input("Enter your password:")
+                age = input("Enter your age:")
+                passenger = {
+                'id': str(self.id),
+                'name':name,
+                'password':password,
+                'age':age
+                }
+                self.id+=1
+                self.passengers.append(passenger)
+                print("sign Up successful. your passenger ID is", passenger['id'] )
+            elif choice == "2":
+                passenger_id = input("Enter your passenger ID: ")
+                password = input("Enter your password: ")
+                for passenger in self.passengers:
+                    if passenger['id']==passenger_id and passenger ['password']==password:
+                        print("sign in sucessful !")
+                        while True:
+                            print("1. Book Ticket ")
+                            print("2. cancel Ticket")
+                            print("3. check availability")
+                            print("4. back")
+                            choice = input("Enter your choice: ")
+                            if choice =="1":
+                                pass_id = input("Enter your Id: ")
+                                if pass_id in passenger['id']:
+                                    ticket_count = int(input("Enter no of Ticket : "))
+                                    ticket = {
+                                        'passenger_id':pass_id,
+                                        'ticket_count':ticket_count,
+                                        'status':'pending'
+                                    }
+                                    self.tickets.append(ticket)
+                                    print("Ticket is waiting for approval...")
+                                else:
+                                    print("invalide Id !")
+                            elif choice == "2":
+                                pass_id = input("Enter your Id: ")
+                                ticket_count= int(input("No of Tickets to cancel : "))
+                                for ticket in self.tickets:
+                                    if pass_id == str(ticket['passenger_id'])and ticket['status']== 'pending':
+                                        ticket['status'] = 'cancelld'
+                                        print("Ticket cancelled successfully.")
+                                    else:
+                                        print("invalide Tickets !")
+                                
+                            elif choice == "3":
+                                print("No of tickects available",self.ticket_count)
+
+                                
+                            elif choice == "4":
+                                break
+                
+                            else:
+                                print("invalid choice")
+                        else:
+                            print("invalid Id or password")
+                    elif choice == "3":
+                        break
+                    # else:
+                    #     print("invalid choice !")
+            elif choice == "3":
+                break
+            else:
+                print("ivalide choice !")
+    def cashier_menu(self):
+        while True:
+            print("***** cashier menu ******")
+            print("1. Approve Ticket")
+            print("2. cancle Ticket")
+            print("3. back")
+            choice = input("Enter your choice : ")
+            if choice =="1":
+                if not self.tickets:
+                    print("No ticket request found: ")
+                else:
+                    for ticket in self.tickets:
+                        if ticket['status']=='pending':
+                            print("passenger ID",ticket['passenger_id']," | Ticket count",ticket['ticket_count'])
+                    for ticket in self.tickets:
+                        pass_id = (input("Enter pass ID: "))
+                        no_tickets = int(input("Enter No of Tickets "))
+                        ticket['status'] = 'Approved'
+                        self.ticket_count-=no_tickets
+                        print("ticket Approved sucessfully.")
+            elif choice == "2":
+                continue
+            elif choice == "3":
+                break
+            else:
+                print("invalid choice ")
+obj = Flight()
+obj.start()
+                        
+                        
+                        
+                        
+                        
+                        
+
+
+
